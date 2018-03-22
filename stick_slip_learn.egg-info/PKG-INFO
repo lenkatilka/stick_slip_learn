@@ -1,0 +1,19 @@
+Metadata-Version: 1.1
+Name: stick-slip-learn
+Version: 0.1
+Summary: Training algorithms to predict stick and slip in granular avalanches
+Home-page: http://github.com/lenkatilka/stick_slip_learn
+Author: Lenka Kovalcinova
+Author-email: lenka.kovalcinova@gmail.com
+License: MIT
+Description: stick_slip_learn
+        --------------------
+        
+        To use this package, simply run:
+          >> ...
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 0 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Topic :: Applied Machine Learning:: Granular Avalanches

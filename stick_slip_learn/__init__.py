@@ -1,4 +1,3 @@
 # initial testing of the package creation
 
-def hello():
-    print("Hello stick slip!")
+from .test_text import hello_again
