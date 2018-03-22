@@ -1,0 +1,5 @@
+#!/usr/local/bin/python3
+
+import stick_slip_learn
+
+print(stick_slip_learn.hello())

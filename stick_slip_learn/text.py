@@ -1,5 +1,5 @@
 
 from markdown import markdown
 
-def hello_again():
+def hello():
     return(markdown("Hello again stick slip!"))

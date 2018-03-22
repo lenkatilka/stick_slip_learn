@@ -1,11 +1,14 @@
 MANIFEST.in
 README.rst
 setup.py
+bin/stick_slip_text
 stick_slip_learn/__init__.py
-stick_slip_learn/test_text.py
+stick_slip_learn/command_line.py
+stick_slip_learn/text.py
 stick_slip_learn.egg-info/PKG-INFO
 stick_slip_learn.egg-info/SOURCES.txt
 stick_slip_learn.egg-info/dependency_links.txt
+stick_slip_learn.egg-info/entry_points.txt
 stick_slip_learn.egg-info/not-zip-safe
 stick_slip_learn.egg-info/requires.txt
 stick_slip_learn.egg-info/top_level.txt

@@ -19,5 +19,12 @@ setup(name='stick_slip_learn',
       author_email='lenka.kovalcinova@gmail.com',
       license='MIT',
       packages=['stick_slip_learn'],
+      include_package_data=True,
       install_requires=['markdown'],
+      test_suite='nose.collector',
+      tests_require=['nose'],
+      scripts=['bin/stick_slip_text'],
+      entry_points = {
+        'console_scripts': ['stick_slip_text=stick_slip_learn.command_line:main'],
+        },
       zip_safe=False)
