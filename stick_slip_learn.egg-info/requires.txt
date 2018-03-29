@@ -1,1 +1,3 @@
-markdown
+numpy
+sklearn
+scipy
