@@ -18,9 +18,9 @@ def main():
                 'n_dim': 2,
                 'batch_size': 2000}
 
-    filename_force = path + "force_contact_8000_12000.bin"
-    filename_contacts = path + "contact_list_8000_12000.bin"
-    filename_particles = path + "part_8000_12000.bin"
+    filename_force = path + "force_contact.bin"
+    filename_contacts = path + "contact_list.bin"
+    filename_particles = path + "part.bin"
     filename_slip = path + "slip_interval_indicator.dat"
 
     building_model = stick_slip_learn.classification_model(arguments)
