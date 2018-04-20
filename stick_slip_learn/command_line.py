@@ -12,12 +12,11 @@ def main():
     arguments = { 'n_feat_part':2620,
                 'n_feat_cont_max': 9,
                 'pos_file_rec_len': 8,
-                'offset_ind': 5000,
+                'offset_ind': 0,
                 'min_record': 0,
                 'max_record': 2000,
                 'n_dim': 2,
-                'batch_size': 3000,
-                'batch_start': 1}
+                'batch_size': 3000}
 
     filename_force = path + "force_contact_5000_8000.bin"
     filename_contacts = path + "contact_list_5000_8000.bin"

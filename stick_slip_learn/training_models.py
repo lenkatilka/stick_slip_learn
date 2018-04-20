@@ -22,7 +22,6 @@ class classification_model():
         self.min_record = arguments['min_record']
         self.max_record = arguments['max_record']
         self.batch_size = arguments['batch_size']
-        self.batch_start = arguments['batch_start']
 
     ##-----------------
     ##-----------------
@@ -65,9 +64,9 @@ class classification_model():
     ##
     def get_all_data(self, filename_force, filename_contacts, filename_particles, filename_slip):
 
-        while self.batch_start < self.max_record:
+        while self.min_record < self.max_record:
             self.get_batch_data(filename_force, filename_contacts, filename_particles, filename_slip)
-            self.batch_start += self.batch_size
+            self.min_record += self.batch_size
 
         return
 
@@ -148,7 +147,7 @@ class classification_model():
         self.training_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind={0,2})
 
 
-        filename_batch = "training_features_labels_"+str(self.batch_start)+"_"+str(self.batch_start+self.batch_size-1)
+        filename_batch = "training_features_labels_"+str(self.min_record)+"_"+str(self.min_record+self.batch_size-1)
         self.save_data(filename_batch)
         return
 
