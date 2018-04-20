@@ -1,3 +1,6 @@
 numpy
 sklearn
 scipy
+pandas
+tables
+h5py

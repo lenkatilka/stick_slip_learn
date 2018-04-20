@@ -8,20 +8,21 @@ class classification_model():
 
     import sklearn
 
-    def __init__(self,n_feat_part, n_feat_cont_max, pos_file_rec_len, offset_ind, n_dim, min_record, max_record, tol=0.0001, C=0.01, random_state=37845, max_iter=10000, warm_start=False):
+    def __init__(self,arguments, tol=0.0001, C=0.01, random_state=37845, max_iter=10000, warm_start=False):
         self.tol = tol
         self.C = C
         self.random_state = random_state
         self.max_iter = max_iter
         self.warm_start = warm_start
-        self.n_feat_part = n_feat_part
-        self.n_feat_cont_max = n_feat_cont_max
-        self.pos_file_rec_len = pos_file_rec_len
-        self.offset_ind = offset_ind
-        self.n_dim = n_dim
-        self.min_record = min_record
-        self.max_record = max_record
-
+        self.n_feat_part = arguments['n_feat_part']
+        self.n_feat_cont_max = arguments['n_feat_cont_max']
+        self.pos_file_rec_len = arguments['pos_file_rec_len']
+        self.offset_ind = arguments['offset_ind']
+        self.n_dim = arguments['n_dim']
+        self.min_record = arguments['min_record']
+        self.max_record = arguments['max_record']
+        self.batch_size = arguments['batch_size']
+        self.batch_start = arguments['batch_start']
 
     ##-----------------
     ##-----------------
@@ -38,6 +39,19 @@ class classification_model():
 
     ##-----------------
     ##-----------------
+    # TRAINING THE LOGISTIC REGRESSION MODEL
+    ##
+    ##
+    def train_rand_forest(self, **kwargs):
+        from sklearn.ensemble import RandomForestClassifier
+
+        rf = RandomForestClassifier(criterion = "entropy", warm_start = self.warm_start, **kwargs   )
+        self.fitted_model = rf.fit(self.training_data, self.training_labels)
+
+        return
+
+    ##-----------------
+    ##-----------------
     # PREDICTION FROM THE TRAINED MODEL
     ##
     ##
@@ -49,8 +63,46 @@ class classification_model():
     # SET UP ALL THE DATA FOR TRAINING
     ##
     ##
+    def get_all_data(self, filename_force, filename_contacts, filename_particles, filename_slip):
 
-    def get_all_data(self, filename_force, filename_contacts, filename_particles, filename_slip, verbose = False):
+        while self.batch_start < self.max_record:
+            self.get_batch_data(filename_force, filename_contacts, filename_particles, filename_slip)
+            self.batch_start += self.batch_size
+
+        return
+
+    ##-----------------
+    ##-----------------
+    # SAVE THE DATA FOR TRAINING
+    ##
+    ##
+    def save_data(self, filename, method = 'hdf5'):
+
+        ##-----------------
+        # Creating the dataset with features and labels
+        ##-----------------
+        if method == 'hdf5':
+
+            import h5py
+
+            data_h5 = h5py.File(filename+".h5", 'w')
+            data_h5.create_dataset('features', data = self.training_data)
+            data_h5.create_dataset('labels', data = self.training_labels)
+
+            data_h5.close()
+
+        else:
+            raise IOError('[Errno 5] Input/Output error: only hdf5 output format permitted at this time.')
+
+        return
+
+    ##-----------------
+    ##-----------------
+    # SET UP BATCH DATA FOR TRAINING
+    ##
+    ##
+
+    def get_batch_data(self, filename_force, filename_contacts, filename_particles, filename_slip, verbose = False):
 
         import stick_slip_learn
 
@@ -94,7 +146,10 @@ class classification_model():
         ##-----------------
         self.training_data = stick_slip_learn.select_data_by_ind(all_data, force_object.indicators_for_data, which_ind={0,2})
         self.training_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind={0,2})
-        # training_labels = np.array([x if x==0  else 1 for x in training_labels])
+
+
+        filename_batch = "training_features_labels_"+str(self.batch_start)+"_"+str(self.batch_start+self.batch_size-1)
+        self.save_data(filename_batch)
         return
 
     ##-----------------
@@ -103,7 +158,7 @@ class classification_model():
     ##
     ##
 
-    def train_model(self, verbose=True):
+    def train_model(self, which = "random_forest", verbose=True):
         import numpy as np
 
         if len(set(self.training_labels)) < 2:
@@ -128,8 +183,14 @@ class classification_model():
         # call a scikit-learn logistic regression library with specific parameters
         ##-----------------
         if verbose:
-            print("".join(['-']*50),"\n training logistic regression \n", "".join(['-']*50))
-        self.train_log_reg()
+            print("".join(['-']*50),"\n training "+ which + " \n", "".join(['-']*50))
+
+        if which == "logistic_regression":
+            self.train_log_reg()
+
+        if which == "random_forest":
+            kwargs = {'n_estimators': 20}
+            self.train_rand_forest(**kwargs)
 
         return
 
