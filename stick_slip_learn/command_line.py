@@ -12,15 +12,15 @@ def main():
     arguments = { 'n_feat_part':2620,
                 'n_feat_cont_max': 9,
                 'pos_file_rec_len': 8,
-                'offset_ind': 0,
+                'offset_ind': 8000,
                 'min_record': 0,
-                'max_record': 2000,
+                'max_record': 4000,
                 'n_dim': 2,
-                'batch_size': 3000}
+                'batch_size': 2000}
 
-    filename_force = path + "force_contact_5000_8000.bin"
-    filename_contacts = path + "contact_list_5000_8000.bin"
-    filename_particles = path + "part_5000_8000.bin"
+    filename_force = path + "force_contact_8000_12000.bin"
+    filename_contacts = path + "contact_list_8000_12000.bin"
+    filename_particles = path + "part_8000_12000.bin"
     filename_slip = path + "slip_interval_indicator.dat"
 
     building_model = stick_slip_learn.classification_model(arguments)

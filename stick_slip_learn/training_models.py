@@ -105,8 +105,8 @@ class classification_model():
 
         import stick_slip_learn
 
-        keywords = {'min_record': self.min_record, 'max_record': self.max_record}
-        keywords_cont = {'min_record': self.min_record, 'max_record':self. max_record, 'dtype': 'int32'}
+        keywords = {'min_record': self.min_record, 'max_record': self.min_record + self.batch_size}
+        keywords_cont = {'min_record': self.min_record, 'max_record':self.min_record + self.batch_size, 'dtype': 'int32'}
         ##-----------------
         # Creating the force data object
         ##-----------------
