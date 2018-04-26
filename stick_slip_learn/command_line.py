@@ -4,17 +4,16 @@ def main():
 
     import stick_slip_learn
     import numpy as np
-    from pandas import HDFStore, DataFrame
     import time
-    path = "/Users/lenkatilka/Research/documents/stick_slip/slip_event/"
+    path = "data/"
 
 
     arguments = { 'n_feat_part':2620,
                 'n_feat_cont_max': 9,
                 'pos_file_rec_len': 8,
-                'offset_ind': 8000,
-                'min_record': 0,
-                'max_record': 4000,
+                'offset_ind': 601,
+                'min_record': 601,
+                'max_record': 300000,
                 'n_dim': 2,
                 'batch_size': 2000}
 
@@ -45,3 +44,6 @@ def main():
     print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
 
     return building_model
+
+if __name__=="__main__":
+    main()
