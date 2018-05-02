@@ -23,23 +23,23 @@ def main():
     filename_slip = path + "slip_interval_indicator.dat"
 
     building_model = stick_slip_learn.classification_model(arguments)
+    warm_start = False
 
-    start_time = time.time()
-    building_model.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
-    end_time = time.time()
+    for start_rec in range(arguments['min_record'], arguments['max_record'], arguments['batch_size']):
+        start_time = time.time()
+        filename_batch = "training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
+        # building_model.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
+        building_model.get_train_data(filename_batch, warm_start=warm_start)
+        warm_start = True
+        end_time = time.time()
 
-    print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to get all data\n"+"".join(["-"]*108))
+        print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to get all data\n"+"".join(["-"]*108))
 
-    start_time = time.time()
+        start_time = time.time()
+        building_model.train_model()
+        end_time = time.time()
 
 
-
-    end_time = time.time()
-    print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to store all data\n"+"".join(["-"]*108))
-
-    start_time = time.time()
-    building_model.train_model()
-    end_time = time.time()
 
     print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
 
