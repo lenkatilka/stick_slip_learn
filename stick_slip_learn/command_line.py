@@ -27,7 +27,7 @@ def main():
 
     for start_rec in range(arguments['min_record'], arguments['max_record'], arguments['batch_size']):
         start_time = time.time()
-        filename_batch = "../training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
+        filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
         # building_model.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
         building_model.get_train_data(filename_batch, warm_start=warm_start)
         warm_start = True
