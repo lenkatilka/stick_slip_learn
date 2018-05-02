@@ -205,3 +205,20 @@ class classification_model():
         data_object.import_f_bin(rec_len = rec_len, **kwargs)
 
         return data_object
+
+
+    def get_train_data(self, filename, warm_start, method = 'hdf5'):
+
+        if method == 'hdf5':
+
+            import h5py
+
+            f = h5py.File(filename, 'r')
+            self.training_data = f["features"]
+            self.training_labels = f["labels"]
+            self.warm_start = warm_start
+
+        else:
+            raise IOError('[Errno 5] Input/Output error: only hdf5 output format permitted at this time.')
+
+        return
