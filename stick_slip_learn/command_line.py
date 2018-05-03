@@ -40,12 +40,12 @@ def main():
         end_time = time.time()
 
         if (start_rec%10000 == 601) and (start_rec != 601):
-            save_model(building_model.fitted_model, "../stick_slip/models/rf_+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1).pickle")
+            stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".pickle")
 
 
     print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
 
-    save_model(building_model.fitted_model,"../stick_slip/models/final_rf_model.pickle")
+    stick_slip_learn.save_model(building_model.fitted_model,"../stick_slip/models/final_rf_model.pickle")
     return building_model
 
 if __name__=="__main__":
