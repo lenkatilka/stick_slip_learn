@@ -23,6 +23,9 @@ def main():
     filename_particles = path + "part.bin"
     filename_slip = path + "slip_interval_indicator.dat"
 
+    training = False
+    prob_slip = True
+
     if training :
         building_model = stick_slip_learn.classification_model(arguments)
         warm_start = False
