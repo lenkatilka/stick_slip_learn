@@ -22,6 +22,7 @@ class classification_model():
         self.min_record = arguments['min_record']
         self.max_record = arguments['max_record']
         self.batch_size = arguments['batch_size']
+        self.which_ind = arguments['which_ind']
 
     ##-----------------
     ##-----------------
@@ -143,8 +144,8 @@ class classification_model():
         ##-----------------
         # Selection of the data according to the labels we want to train on
         ##-----------------
-        self.training_data = stick_slip_learn.select_data_by_ind(all_data, force_object.indicators_for_data, which_ind={0,2})
-        self.training_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind={0,2})
+        self.training_data = stick_slip_learn.select_data_by_ind(all_data, force_object.indicators_for_data, which_ind=self.which_ind)
+        self.training_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind=self.which_ind)
 
 
         filename_batch = "training_features_labels_"+str(self.min_record)+"_"+str(self.min_record+self.batch_size-1)
