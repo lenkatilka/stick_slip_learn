@@ -59,7 +59,7 @@ def main():
         warm_start = False
         predicted_prob = []
 
-        for start_rec in range(arguments['min_record'], arguments['max_record'], arguments['batch_size']):
+        for start_rec in range(arguments['min_record'], 290602, arguments['batch_size']):
             start_time = time.time()
             filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
             class_data.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
