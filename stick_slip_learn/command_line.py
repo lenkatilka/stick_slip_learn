@@ -27,11 +27,16 @@ def main():
     prob_slip = False
 
     if training :
-        building_model = stick_slip_learn.classification_model(arguments)
         warm_start = False
+        min_record = arguments['min_record']
 
-        for start_rec in range(arguments['min_record'], arguments['max_record'], arguments['batch_size']):
+        for start_rec in range(min_record, arguments['max_record'], arguments['batch_size']):
             start_time = time.time()
+
+            arguments['min_record'] = start_rec
+
+            building_model = stick_slip_learn.classification_model(arguments)
+
 
             end_rec = min(start_rec+arguments['batch_size']-1, arguments['max_record'])
             filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(end_rec)+".h5"
