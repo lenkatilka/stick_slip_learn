@@ -117,6 +117,7 @@ class data_file():
 
         for line_id in range(len(lines)):
             time, ind = lines[line_id].split()
+            time = int(time)
             if (time >= self.min_record) and (time < self.max_record):
                 self.indicators_for_data.append(int(ind))
             if time > self.max_record:
