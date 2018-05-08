@@ -43,12 +43,14 @@ def main():
 
             print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to get all data\n"+"".join(["-"]*108))
 
-            start_time = time.time()
-            building_model.train_model()
-            end_time = time.time()
+            try :
+                start_time = time.time()
+                building_model.train_model()
+                end_time = time.time()
 
-            stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(end_rec)+".pickle")
-
+                stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(end_rec)+".pickle")
+            else:
+                continue
 
         print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
 
