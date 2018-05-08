@@ -64,13 +64,17 @@ def main():
 
         for start_rec in range(arguments['min_record'], 290602, arguments['batch_size']):
             start_time = time.time()
-            filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
-            class_data.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
+            class_data.min_record = start_rec
+            class_data.get_batch_data(filename_force, filename_contacts, filename_particles, filename_slip)
 
+            n_records, n_features = np.array(class_data.training_data).shape[0:2]
+            class_data.training_data = np.array(class_data.training_data).reshape([n_records,n_features*2*class_data.n_dim])
             predicted_prob = trained_model.predict_proba(class_data.training_data)
+            predicted_prob = predicted_prob[:,1]
 
-            if not isinstance(predicted_prob, list):
-                raise ValueError("predicted probabilities are not in list")
+#            if not isinstance(predicted_prob, list):
+#                print(predicted_prob)
+#                raise ValueError("predicted probabilities are not in list")
 
 
             for prob in predicted_prob:
