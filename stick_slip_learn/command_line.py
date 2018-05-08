@@ -60,7 +60,7 @@ def main():
         predicted_prob = []
 
         fout = open("predicted_prob_of_slip.dat", "w")
-        time = arguments['min_record']
+        time_out = arguments['min_record']
 
         for start_rec in range(arguments['min_record'], 290602, arguments['batch_size']):
             start_time = time.time()
@@ -74,8 +74,8 @@ def main():
 
 
             for prob in predicted_prob:
-                fout.write(str(time)+ " " + str(prob)+ "\n")
-                time += 1
+                fout.write(str(time_out)+ " " + str(prob)+ "\n")
+                time_out += 1
 
 
 
