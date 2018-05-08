@@ -23,8 +23,8 @@ def main():
     filename_particles = path + "part.bin"
     filename_slip = path + "slip_interval_indicator.dat"
 
-    training = False
-    prob_slip = True
+    training = True
+    prob_slip = False
 
     if training :
         building_model = stick_slip_learn.classification_model(arguments)
@@ -32,9 +32,12 @@ def main():
 
         for start_rec in range(arguments['min_record'], arguments['max_record'], arguments['batch_size']):
             start_time = time.time()
-            filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
-            # building_model.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
-            building_model.get_train_data(filename_batch, warm_start=warm_start)
+
+            end_rec = min(start_rec+arguments['batch_size']-1, arguments['max_record'])
+            filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(end_rec)+".h5"
+
+            building_model.get_batch_data(filename_force, filename_contacts, filename_particles, filename_slip)
+            # building_model.get_train_data(filename_batch, warm_start=warm_start)
             warm_start = True
             end_time = time.time()
 
@@ -44,8 +47,7 @@ def main():
             building_model.train_model()
             end_time = time.time()
 
-            if (start_rec%10000 == 601) and (start_rec != 601):
-                stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".pickle")
+            stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(end_rec)+".pickle")
 
 
         print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
