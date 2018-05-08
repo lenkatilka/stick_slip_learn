@@ -86,8 +86,8 @@ class classification_model():
             import h5py
 
             data_h5 = h5py.File(filename+".h5", 'w')
-            data_h5.create_dataset('features', data = self.training_data)
-            data_h5.create_dataset('labels', data = self.training_labels)
+            data_h5.create_dataset('features', data = self.all_data)
+            data_h5.create_dataset('labels', data = self.all_labels)
 
             data_h5.close()
 
