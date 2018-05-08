@@ -132,7 +132,7 @@ class classification_model():
         ##-----------------
         # Creating the indicators array to get labels for training
         ##-----------------
-        force_object.get_indicators_from_file(filename_slip, offset= self.offset_ind)
+        force_object.get_indicators_from_file(filename_slip)
 
         ##-----------------
         # Creating the learning format from force, particle and contact objects
@@ -144,8 +144,8 @@ class classification_model():
         ##-----------------
         # Selection of the data according to the labels we want to train on
         ##-----------------
-        self.training_data = stick_slip_learn.select_data_by_ind(all_data, force_object.indicators_for_data, which_ind=self.which_ind)
-        self.training_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind=self.which_ind)
+        self.all_data = stick_slip_learn.select_data_by_ind(all_data, force_object.indicators_for_data, which_ind=self.which_ind)
+        self.all_labels = stick_slip_learn.select_data_by_ind(force_object.indicators_for_data, force_object.indicators_for_data, which_ind=self.which_ind)
 
 
         filename_batch = "training_features_labels_"+str(self.min_record)+"_"+str(self.min_record+self.batch_size-1)
@@ -158,12 +158,18 @@ class classification_model():
     ##
     ##
 
-    def train_model(self, which = "random_forest", verbose=True):
+    def train_model(self, which = "random_forest", verbose=True, which_ind={0,2}):
         import numpy as np
 
         if len(set(self.training_labels)) < 2:
             print("Nothing to train on for this data chunk. Reccomended to increase the data batch size.")
             return
+
+
+
+        self.training_data = stick_slip_learn.select_data_by_ind(self.all_data, self.all_labels, which_ind=which_ind)
+        self.training_labels = stick_slip_learn.select_data_by_ind(self.all_labels, self.all_labels, which_ind=which_ind)
+
 
         ##-----------------
         # find the dimension of the training_data data

@@ -112,18 +112,11 @@ class data_file():
     ##
     def get_indicators_from_file(self, filename, **kwargs):
 
-        ## if there is an offset between the indicators file and min_record
-        if "offset" in kwargs:
-            offset = kwargs["offset"]
-        else:
-            offset = 0
-
         with open(filename, "r") as slip_f:
             lines = slip_f.readlines()
 
         for line_id in range(len(lines)):
             time, ind = lines[line_id].split()
-            time = int(time) - offset
             if (time >= self.min_record) and (time < self.max_record):
                 self.indicators_for_data.append(int(ind))
             if time > self.max_record:
