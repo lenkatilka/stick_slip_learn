@@ -160,6 +160,7 @@ class classification_model():
 
     def train_model(self, which = "random_forest", verbose=True, which_ind={0,2}):
         import numpy as np
+        import stick_slip_learn
 
         if len(set(self.all_labels)) < 2:
             print("Nothing to train on for this data chunk. Reccomended to increase the data batch size.")
