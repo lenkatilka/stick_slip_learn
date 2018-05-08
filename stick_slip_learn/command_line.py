@@ -49,8 +49,8 @@ def main():
                 end_time = time.time()
 
                 stick_slip_learn.save_model(building_model.fitted_model, "../stick_slip/models/rf_"+str(start_rec)+"_"+str(end_rec)+".pickle")
-            else:
-                continue
+            except:
+                pass
 
         print("".join(["-"]*108)+"\nIt took ", end_time - start_time, " to train the data\n"+"".join(["-"]*108))
 
