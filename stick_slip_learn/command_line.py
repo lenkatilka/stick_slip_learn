@@ -59,18 +59,20 @@ def main():
         warm_start = False
         predicted_prob = []
 
+        fout = open("predicted_prob_of_slip.dat", "w")
+        time = arguments['min_record']
+
         for start_rec in range(arguments['min_record'], 290602, arguments['batch_size']):
             start_time = time.time()
             filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(start_rec+arguments['batch_size']-1)+".h5"
             class_data.get_all_data(filename_force, filename_contacts, filename_particles, filename_slip)
 
-            predicted_prob = predicted_prob + trained_model.predict_proba(class_data.training_data)
+            predicted_prob = trained_model.predict_proba(class_data.training_data)
 
             if not isinstance(predicted_prob, list):
                 raise ValueError("predicted probabilities are not in list")
 
-        time = 601
-        with open("predicted_prob_of_slip.dat", "w") as fout:
+
             for prob in predicted_prob:
                 fout.write(str(time)+ " " + str(prob)+ "\n")
                 time += 1
