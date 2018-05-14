@@ -23,8 +23,8 @@ def main():
     filename_particles = path + "part.bin"
     filename_slip = path + "slip_interval_indicator.dat"
 
-    training = True
-    prob_slip = False
+    training = False
+    prob_slip = True
 
     if training :
         warm_start = False
@@ -36,7 +36,6 @@ def main():
             arguments['min_record'] = start_rec
 
             building_model = stick_slip_learn.classification_model(arguments)
-
 
             end_rec = min(start_rec+arguments['batch_size']-1, arguments['max_record'])
             filename_batch = "../stick_slip/training_features_labels_"+str(start_rec)+"_"+str(end_rec)+".h5"
@@ -63,7 +62,7 @@ def main():
         return building_model
 
     elif prob_slip:
-        trained_model = stick_slip_learn.load_model("../stick_slip/models/rf_290601_292600.pickle")
+        trained_model = stick_slip_learn.load_model("../stick_slip/models/rf_296601_298600.pickle")
         class_data = stick_slip_learn.classification_model(arguments)
         warm_start = False
         predicted_prob = []
@@ -71,10 +70,11 @@ def main():
         fout = open("predicted_prob_of_slip.dat", "w")
         time_out = arguments['min_record']
 
-        for start_rec in range(arguments['min_record'], 290602, arguments['batch_size']):
+        for start_rec in range(arguments['min_record'], 296602, arguments['batch_size']):
             start_time = time.time()
             class_data.min_record = start_rec
-            class_data.get_batch_data(filename_force, filename_contacts, filename_particles, filename_slip)
+            filename = "training_features_labels_"+str(self.min_record)+"_"+str(start_rec+arguments["batch_size"]-1)+".h5"
+            class_data.get_train_data(filename, warm_start=False)
 
             n_records, n_features = np.array(class_data.training_data).shape[0:2]
             class_data.training_data = np.array(class_data.training_data).reshape([n_records,n_features*2*class_data.n_dim])
